@@ -10,7 +10,7 @@ app.get("/videos/:file", async (request, response) => {
   const { file } = request.params;
   const { range } = request.headers;
 
-  if (range) {
+  if (!range) {
     return response.status(400).json({
       message: "Range header is required",
     });
