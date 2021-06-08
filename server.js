@@ -29,9 +29,25 @@ app.get("/videos/:file", async (request, response) => {
   const chunkSize = 1024 * 1024 * 0.5;
   const start = Number(range.replace(/\D/gi, ""));
   const end = Math.min(start + chunkSize, fileSize - 1);
+
   const stream = fs.createReadStream(filename, { start, end });
+  stream
+    .on("open", () => {
+      response.writeHead(206, {
+        "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+        "Accept-Ranges": "bytes",
+        "Content-Length": end - start + 1,
+        "Content-Type": "video/mp4",
+      });
+
+      stream.pipe(response);
     })
-  }
+    .on("error", (err) => {
+      console.log(err);
+      response.status(500).json({
+        message: "Internal Server Error",
+      });
+    });
 });
 
 app.listen(3000);
