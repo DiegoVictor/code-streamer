@@ -24,7 +24,12 @@ app.get("/videos/:file", async (request, response) => {
       message: `The file ${file} was not found`,
     });
   }
-  const { size } = stat;
+  const { size: fileSize } = stat;
+
+  const chunkSize = 1024 * 1024 * 0.5;
+  const start = Number(range.replace(/\D/gi, ""));
+  const end = Math.min(start + chunkSize, fileSize - 1);
+  const stream = fs.createReadStream(filename, { start, end });
     })
   }
 });
