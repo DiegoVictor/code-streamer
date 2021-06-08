@@ -15,6 +15,18 @@ app.get("/videos/:file", async (request, response) => {
       message: "Range header is required",
     });
   }
+
+  const filename = `./${file}`;
+  const stat = await fs.promises.stat(filename);
+
+  if (!stat) {
+    return response.status(404).json({
+      message: `The file ${file} was not found`,
+    });
+  }
+  const { size } = stat;
+    })
+  }
 });
 
 app.listen(3000);
