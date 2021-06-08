@@ -9,5 +9,71 @@
 </head>
 <body>
   <video id="video" width="720" controls></video>
+  <script>
+    const video = document.getElementById('video');
+
+    const mediaSource = new MediaSource();
+    const url = URL.createObjectURL(mediaSource);
+
+    video.src = url;
+
+    async function getStreamingPart(url, range) {
+      let bytes;
+
+      if (!range) {
+        bytes = 'bytes=0-';
+      }
+      else {
+        const [start, end, total] = range.replace('bytes ', '').match(/\d+/g);
+
+        if (Number(end) < Number(total - 1)) {
+          bytes = 'bytes=' + (Number(end) + 1) + '-';
+        }
+      }
+
+      if (bytes) {
+        return fetch(url, {
+          headers: {
+            range: bytes,
+          }
+        }).then(function (response) {
+          return response.arrayBuffer().then(function (data) {
+            return {
+              data,
+              range: response.headers.get('content-range')
+            };
+          });
+        })
+      }
+
+      return null;
+    }
+
+    mediaSource.addEventListener('sourceopen', function() {
+      const videoSourceBuffer = mediaSource.addSourceBuffer(
+        'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
+      );
+      const url = 'http://localhost:3000/videos/video.mp4';
+      let range;
+
+      async function handleBuffer (response) {
+        if (response && response.data && response.range) {
+          videoSourceBuffer.appendBuffer(response.data);
+
+          range = response.range;
+        }
+        else {
+          mediaSource.endOfStream();
+          video.play();
+        }
+      }
+
+      videoSourceBuffer.addEventListener('updateend', function() {
+        getStreamingPart(url, range).then(handleBuffer);
+      });
+
+      getStreamingPart(url).then(handleBuffer);
+    });
+  </script>
 </body>
 </html>
