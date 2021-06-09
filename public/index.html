@@ -36,14 +36,13 @@
           headers: {
             range: bytes,
           }
-        }).then(function (response) {
-          return response.arrayBuffer().then(function (data) {
-            return {
-              data,
-              range: response.headers.get('content-range')
-            };
-          });
         })
+        .then(function (response) {
+          return {
+            stream: response.body,
+            range: response.headers.get('content-range')
+          };
+        });
       }
 
       return null;
@@ -56,23 +55,47 @@
       const url = '/videos/video.mp4';
       let range;
 
-      async function handleBuffer (response) {
-        if (response && response.data && response.range) {
-          videoSourceBuffer.appendBuffer(response.data);
+      function handleBuffer(response) {
+        if (response && response.stream && response.range) {
+          const reader = response.stream.getReader();
 
-          range = response.range;
+          return reader.read()
+            .then(function ({ done, value }) {
+              return handleChunk({
+                done, value, range: response.range, reader
+              });
+            });
+        }
+
+        mediaSource.endOfStream();
+        video.play();
+      }
+
+      function handleChunk ({ done, value, range, reader }) {
+        if (done) {
+          if (range) {
+            getStreamingPart(url, range).then(handleBuffer);
+          }
         }
         else {
-          mediaSource.endOfStream();
-          video.play();
+          videoSourceBuffer.appendBuffer(value);
+          videoSourceBuffer.addEventListener('updateend', function() {
+            reader.read()
+              .then(function (result) {
+                return handleChunk({
+                  done: result.done,
+                  value: result.value,
+                  range,
+                  reader,
+                })
+              });
+          }, {
+            once: true
+          });
         }
       }
 
-      videoSourceBuffer.addEventListener('updateend', function() {
-        getStreamingPart(url, range).then(handleBuffer);
-      });
-
-      getStreamingPart(url).then(handleBuffer);
+      getStreamingPart(url).then(handleBuffer)
     });
   </script>
 </body>
