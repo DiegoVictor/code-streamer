@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "license": "MIT",
   "scripts": {
     "dev:server": "nodemon server.js"
