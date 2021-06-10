@@ -4,7 +4,7 @@
 [![airbnb-style](https://flat.badgen.net/badge/style-guide/airbnb/ff5a5f?icon=airbnb)](https://github.com/airbnb/javascript)
 [![MIT License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](https://github.com/DiegoVictor/code-streamer/blob/master/LICENSE)
 
-Study Case to implement learn about streaming video in Node.js
+Study Case to learn about streaming video in Node.js
 
 # Requirements
 * [Node.js](https://nodejs.org) ^15.14.0
