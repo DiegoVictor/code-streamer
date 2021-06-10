@@ -5,7 +5,7 @@ import * as crypto from 'crypto-js';
 
 const app = express();
 
-app.use(express.static(path.resolve(__dirname, "public")));
+app.use(express.static(resolve(process.cwd(), 'public')));
 app.use(express.json());
 
 app.get("/videos/:file", async (request, response) => {
