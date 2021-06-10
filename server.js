@@ -33,6 +33,8 @@ app.get('/videos/:file', async (request, response) => {
   const end = Math.min(start + chunkSize, fileSize - 1);
 
   const stream = fs.createReadStream(filename, { start, end });
+
+  return stream
     .on('open', () => {
       response.writeHead(206, {
         'Content-Range': `bytes ${start}-${end}/${fileSize}`,
