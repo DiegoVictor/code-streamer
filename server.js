@@ -8,13 +8,13 @@ const app = express();
 app.use(express.static(resolve(process.cwd(), 'public')));
 app.use(express.json());
 
-app.get("/videos/:file", async (request, response) => {
+app.get('/videos/:file', async (request, response) => {
   const { file } = request.params;
   const { range } = request.headers;
 
   if (!range) {
     return response.status(400).json({
-      message: "Range header is required",
+      message: 'Range header is required',
     });
   }
 
@@ -29,25 +29,24 @@ app.get("/videos/:file", async (request, response) => {
   const { size: fileSize } = stat;
 
   const chunkSize = 1024 * 1024 * 0.5;
-  const start = Number(range.replace(/\D/gi, ""));
+  const start = Number(range.replace(/\D/gi, ''));
   const end = Math.min(start + chunkSize, fileSize - 1);
 
   const stream = fs.createReadStream(filename, { start, end });
-  stream
-    .on("open", () => {
+    .on('open', () => {
       response.writeHead(206, {
-        "Content-Range": `bytes ${start}-${end}/${fileSize}`,
-        "Accept-Ranges": "bytes",
-        "Content-Length": end - start + 1,
-        "Content-Type": "video/mp4",
+        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': end - start + 1,
+        'Content-Type': 'video/mp4',
       });
 
       stream.pipe(response);
     })
-    .on("error", (err) => {
+    .on('error', (err) => {
       console.log(err);
       response.status(500).json({
-        message: "Internal Server Error",
+        message: 'Internal Server Error',
       });
     });
 });
