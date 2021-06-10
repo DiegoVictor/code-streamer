@@ -1,6 +1,8 @@
-const express = require("express");
-const fs = require("fs");
-const path = require("path");
+import express from 'express';
+import { promises, createReadStream } from 'fs';
+import { resolve } from 'path';
+import * as crypto from 'crypto-js';
+
 const app = express();
 
 app.use(express.static(path.resolve(__dirname, "public")));
