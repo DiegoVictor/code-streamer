@@ -12,6 +12,10 @@
     "sourceType": "module"
   },
   "rules": {
-    "linebreak-style": ["error", "windows"]
+    "linebreak-style": ["error", "windows"],
+    "import/prefer-default-export": "off",
+    "import/extensions": ["error", {
+      "js": "always"
+    }]
   }
 }
