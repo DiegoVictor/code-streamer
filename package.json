@@ -6,6 +6,7 @@
     "dev:server": "nodemon server.js"
   },
   "dependencies": {
+    "cors": "^2.8.5",
     "crypto-js": "^4.0.0",
     "express": "^4.17.1"
   },
