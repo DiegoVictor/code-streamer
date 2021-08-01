@@ -1,10 +1,11 @@
 import express from 'express';
-import { promises, createReadStream } from 'fs';
+import cors from 'cors';
 import { resolve } from 'path';
 import * as crypto from 'crypto-js';
 
 const app = express();
 
+app.use(cors());
 app.use(express.static(resolve(process.cwd(), 'public')));
 app.use(express.json());
 
