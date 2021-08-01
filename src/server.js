@@ -46,8 +46,7 @@ app.get('/videos/:file', async (request, response) => {
 
       stream.pipe(response);
     })
-    .on('error', (err) => {
-      console.log(err);
+    .on('error', () => {
       response.status(500).json({
         message: 'Internal Server Error',
       });
