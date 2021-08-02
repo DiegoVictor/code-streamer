@@ -46,7 +46,12 @@
       })
     }
 
-      return null;
+    function decrypt (arrayBuffer, secret) {
+      const cipherText = new TextDecoder().decode(arrayBuffer);
+      const decrypted = CryptoJS.AES.decrypt(cipherText, secret)
+        .toString(CryptoJS.enc.Utf8);
+
+      return buffer.Buffer.from(decrypted, 'hex');
     }
 
     mediaSource.addEventListener('sourceopen', function() {
