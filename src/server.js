@@ -40,8 +40,7 @@ app.get('/videos/:file', async (request, response) => {
       response.writeHead(206, {
         'Content-Range': `bytes ${start}-${end}/${fileSize}`,
         'Accept-Ranges': 'bytes',
-        'Content-Length': end - start + 1,
-        'Content-Type': 'video/mp4',
+        'Content-Type': 'applicatio/octet-stream',
       });
 
       stream.pipe(response);
