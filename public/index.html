@@ -22,9 +22,9 @@
     const video = document.getElementById('video');
 
     const mediaSource = new MediaSource();
-    const url = URL.createObjectURL(mediaSource);
+    const mediaSourceUrl = URL.createObjectURL(mediaSource);
 
-    video.src = url;
+    video.src = mediaSourceUrl;
 
     async function getStreamingPart(url, range) {
       let bytes;
