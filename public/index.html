@@ -30,30 +30,21 @@
       video.play();
     });
 
-      if (!range) {
-        bytes = 'bytes=0-';
-      }
-      else {
-        const [start, end, total] = range.replace('bytes ', '').match(/\d+/g);
-
-        if (Number(end) < Number(total - 1)) {
-          bytes = 'bytes=' + (Number(end) + 1) + '-';
+    function getStreamBuffer(url, range) {
+      return fetch(url, {
+        headers: {
+          range: range || 'bytes 0-'
         }
-      }
-
-      if (bytes) {
-        return fetch(url, {
-          headers: {
-            range: bytes,
-          }
-        })
-        .then(function (response) {
+      })
+      .then(response => {
+        return response.arrayBuffer().then(arrayBuffer => {
           return {
-            stream: response.body,
+            arrayBuffer,
             range: response.headers.get('content-range')
           };
-        });
-      }
+        })
+      })
+    }
 
       return null;
     }
