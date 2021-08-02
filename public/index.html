@@ -58,8 +58,7 @@
       const videoSourceBuffer = mediaSource.addSourceBuffer(
         'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
       );
-      const url = '/videos/video.mp4';
-      let range;
+      const videoUrl = '/videos/video.mp4';
 
       function handleBuffer(response) {
         if (response && response.stream && response.range) {
@@ -101,7 +100,8 @@
         }
       }
 
-      getStreamingPart(url).then(handleBuffer)
+      getStreamBuffer(videoUrl)
+        .then(response => handleBuffer(response));
     });
   </script>
 </body>
