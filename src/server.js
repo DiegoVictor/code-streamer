@@ -1,4 +1,5 @@
 import express from 'express';
+import fs from 'fs';
 import cors from 'cors';
 import { resolve } from 'path';
 import * as crypto from 'crypto-js';
