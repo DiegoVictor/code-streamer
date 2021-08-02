@@ -64,13 +64,7 @@
       function handleBuffer ({ arrayBuffer, range }) {
         videoSourceBuffer.appendBuffer(decrypt(arrayBuffer, secret));
 
-          return reader.read()
-            .then(function ({ done, value }) {
-              return handleChunk({
-                done, value, range: response.range, reader
-              });
-            });
-        }
+        videoSourceBuffer.addEventListener('updateend', function() {
 
         mediaSource.endOfStream();
         video.play();
@@ -98,6 +92,7 @@
             once: true
           });
         }
+        }, { once: true });
       }
 
       getStreamBuffer(videoUrl)
