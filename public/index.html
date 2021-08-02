@@ -65,33 +65,17 @@
         videoSourceBuffer.appendBuffer(decrypt(arrayBuffer, secret));
 
         videoSourceBuffer.addEventListener('updateend', function() {
+          const [, end, total] = range.replace('bytes ', '')
+            .match(/\d+/g)
+            .map(match => Number(match));
 
-        mediaSource.endOfStream();
-        video.play();
-      }
-
-      function handleChunk ({ done, value, range, reader }) {
-        if (done) {
-          if (range) {
-            getStreamingPart(url, range).then(handleBuffer);
+          if (end < total - 1) {
+            getStreamBuffer(videoUrl, `bytes=${end + 1}-`)
+              .then(response => handleBuffer(response));
           }
-        }
-        else {
-          videoSourceBuffer.appendBuffer(value);
-          videoSourceBuffer.addEventListener('updateend', function() {
-            reader.read()
-              .then(function (result) {
-                return handleChunk({
-                  done: result.done,
-                  value: result.value,
-                  range,
-                  reader,
-                })
-              });
-          }, {
-            once: true
-          });
-        }
+          else {
+            mediaSource.endOfStream();
+          }
         }, { once: true });
       }
 
