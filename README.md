@@ -31,4 +31,4 @@ yarn dev:server
 ```
 
 Then access through the browser the `http://localhost:3000` page (if you are using the default configuration), if everything is OK you should see the player loading and playing the video:
-![Home](https://raw.githubusercontent.com/DiegoVictor/code-streamer/main/screenshots/home.png)
+![Demo](https://raw.githubusercontent.com/DiegoVictor/code-streamer/main/screenshots/demo.png)
