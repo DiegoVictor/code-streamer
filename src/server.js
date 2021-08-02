@@ -2,7 +2,9 @@ import express from 'express';
 import fs from 'fs';
 import cors from 'cors';
 import { resolve } from 'path';
-import * as crypto from 'crypto-js';
+import { Transform } from 'stream';
+
+import { encrypt } from './utils/crypt.js';
 
 const app = express();
 
@@ -44,7 +46,15 @@ app.get('/videos/:file', async (request, response) => {
         'Content-Type': 'applicatio/octet-stream',
       });
 
-      stream.pipe(response);
+      const transform = new Transform({
+        transform(chunk, _, callback) {
+          const cipherText = encrypt(chunk, '6n2347856n234785nc623487c56n2347');
+
+          callback(null, cipherText);
+        },
+      });
+
+      stream.pipe(transform).pipe(response);
     })
     .on('error', () => {
       response.status(500).json({
