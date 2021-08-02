@@ -26,8 +26,9 @@
 
     video.src = mediaSourceUrl;
 
-    async function getStreamingPart(url, range) {
-      let bytes;
+    video.addEventListener('canplay', () => {
+      video.play();
+    });
 
       if (!range) {
         bytes = 'bytes=0-';
