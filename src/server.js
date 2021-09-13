@@ -1,7 +1,6 @@
 import express from 'express';
 import fs from 'fs';
 import cors from 'cors';
-import { resolve } from 'path';
 import { Transform } from 'stream';
 
 import { encrypt } from './utils/crypt.js';
