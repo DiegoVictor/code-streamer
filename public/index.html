@@ -132,10 +132,13 @@
 
     function decrypt (arrayBuffer, secret) {
       const cipherText = new TextDecoder().decode(arrayBuffer);
-      const decrypted = CryptoJS.AES.decrypt(cipherText, secret)
-        .toString(CryptoJS.enc.Utf8);
+      const decrypted = CryptoJS.AES.decrypt(cipherText, secret);
 
-      return buffer.Buffer.from(decrypted, 'hex');
+      // buffer object comes from /js/cryptojs/buffer.min.js
+      return buffer.Buffer.from(
+        decrypted.toString(CryptoJS.enc.Utf8),
+        'hex'
+      );
     }
 
     mediaSource.addEventListener('sourceopen', function() {
