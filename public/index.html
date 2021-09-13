@@ -160,6 +160,27 @@
       };
       load(range);
     });
+
+    const data = {
+      video: null,
+      duration: {
+        seconds: 0,
+        text: '',
+      },
+      fullscreen: false,
+      current: {
+        time: 0,
+        text: '0:00'
+      },
+      container: false,
+      playing: true,
+      timer: '',
+      progress: {
+        x: 0,
+        width: 0
+      }
+    };
+
           }
           else {
             mediaSource.endOfStream();
