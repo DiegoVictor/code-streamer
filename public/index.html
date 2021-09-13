@@ -101,6 +101,8 @@
   <script src="/js/cryptojs/aes.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
   <script>
+    const videoUrl = '/videos/video.mp4';
+    const secret = '6n2347856n234785nc623487c56n2347';
     const video = document.getElementById('video');
 
     const mediaSource = new MediaSource();
@@ -140,9 +142,7 @@
       const videoSourceBuffer = mediaSource.addSourceBuffer(
         'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
       );
-      const videoUrl = '/videos/video.mp4';
-      const secret = '6n2347856n234785nc623487c56n2347';
-
+      
       function handleBuffer ({ arrayBuffer, range }) {
         videoSourceBuffer.appendBuffer(decrypt(arrayBuffer, secret));
 
