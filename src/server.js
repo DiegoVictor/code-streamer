@@ -9,7 +9,7 @@ import { encrypt } from './utils/crypt.js';
 const app = express();
 
 app.use(cors());
-app.use(express.static(resolve(process.cwd(), 'public')));
+app.use(express.static('public'));
 app.use(express.json());
 
 app.get('/videos/:file', async (request, response) => {
