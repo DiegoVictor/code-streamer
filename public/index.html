@@ -108,26 +108,16 @@
     const mediaSource = new MediaSource();
     const mediaSourceUrl = URL.createObjectURL(mediaSource);
 
-    video.src = mediaSourceUrl;
-
-    video.addEventListener('canplay', () => {
-      video.play();
-    });
-
-    function getStreamBuffer(url, range) {
-      return fetch(url, {
-        headers: {
-          range: range || 'bytes 0-'
-        }
-      })
-      .then(response => {
-        return response.arrayBuffer().then(arrayBuffer => {
-          return {
+    function getBuffer(url, range) {
+      return fetch(url, { headers: { range } })
+      .then(response =>
+        response.arrayBuffer().then(arrayBuffer =>
+          ({
             arrayBuffer,
-            range: response.headers.get('content-range')
-          };
-        })
-      })
+            contentRange: response.headers.get('content-range')
+          })
+        )
+      )
     }
 
     function decrypt (arrayBuffer, secret) {
@@ -145,18 +135,31 @@
       const videoSourceBuffer = mediaSource.addSourceBuffer(
         'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
       );
-      
-      function handleBuffer ({ arrayBuffer, range }) {
-        videoSourceBuffer.appendBuffer(decrypt(arrayBuffer, secret));
+      let range = 'bytes 0-';
 
-        videoSourceBuffer.addEventListener('updateend', function() {
-          const [, end, total] = range.replace('bytes ', '')
-            .match(/\d+/g)
-            .map(match => Number(match));
 
-          if (end < total - 1) {
-            getStreamBuffer(videoUrl, `bytes=${end + 1}-`)
-              .then(response => handleBuffer(response));
+      videoSourceBuffer.addEventListener('updateend', function() {
+        const [, end, total] = range.replace('bytes ', '')
+        .match(/\d+/g)
+        .map(match => Number(match));
+
+        if (end + 1 < total) {
+          return load(`bytes=${end + 1}-`);
+        }
+
+        mediaSource.endOfStream();
+      });
+
+      function load(contentRange) {
+        getBuffer(videoUrl, contentRange).then(chunk => {
+          range = chunk.contentRange;
+          videoSourceBuffer.appendBuffer(
+            decrypt(chunk.arrayBuffer, secret)
+          );
+        });
+      };
+      load(range);
+    });
           }
           else {
             mediaSource.endOfStream();
