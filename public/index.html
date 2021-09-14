@@ -203,6 +203,15 @@
         data.progress.width = progress.clientWidth;
 
         data.video = video;
+
+        video.addEventListener('seeked', () => {
+          if (!data.playing) {
+            setTimeout(() => {
+              data.video.pause();
+            }, 1);
+          }
+        });
+
       }
     });
   </script>
