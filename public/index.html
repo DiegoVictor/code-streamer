@@ -181,15 +181,10 @@
       }
     };
 
-          }
-          else {
-            mediaSource.endOfStream();
-          }
-        }, { once: true });
-      }
 
-      getStreamBuffer(videoUrl)
-        .then(response => handleBuffer(response));
+    const player = new Vue({
+      el: '#app',
+      data,
     });
   </script>
 </body>
