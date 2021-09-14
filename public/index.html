@@ -103,7 +103,6 @@
   <script>
     const videoUrl = '/videos/video.mp4';
     const secret = '6n2347856n234785nc623487c56n2347';
-    const video = document.getElementById('video');
 
     const mediaSource = new MediaSource();
     const mediaSourceUrl = URL.createObjectURL(mediaSource);
@@ -212,6 +211,8 @@
           }
         });
 
+
+        video.src = mediaSourceUrl;
       }
     });
   </script>
