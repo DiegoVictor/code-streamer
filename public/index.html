@@ -184,6 +184,11 @@
     const player = new Vue({
       el: '#app',
       data,
+      mounted: function () {
+        const { container, progress, video } = this.$refs;
+
+        data.container = container;
+        data.video = video;
     });
   </script>
 </body>
