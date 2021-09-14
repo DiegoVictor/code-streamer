@@ -213,6 +213,11 @@
 
 
         video.src = mediaSourceUrl;
+
+        video.addEventListener('canplay', () => {
+          video.play();
+        });
+
       }
     });
   </script>
