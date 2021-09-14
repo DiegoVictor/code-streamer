@@ -218,6 +218,9 @@
           video.play();
         });
 
+        video.addEventListener('ended', () => {
+          data.playing = false;
+        });
       }
     });
   </script>
