@@ -78,6 +78,7 @@
     <div class="video-container" v-bind:class="{fullscreen}" ref="container">
       <video ref="video" width="720"></video>
       <div class="video-controls">
+        <div class="video-progress-timeline" v-on:click.prevent="goTo">
           <progress ref="progress" v-bind:value="current.time" v-bind:max="duration.seconds"></progress>
         </div>
         <div class="buttons">
@@ -184,6 +185,16 @@
     const player = new Vue({
       el: '#app',
       data,
+      methods: {
+        goTo: function ({ clientX }) {
+          const x = clientX - data.progress.x;
+          const percent = x / data.progress.width;
+
+          data.video.currentTime = Math.ceil(
+            percent * data.duration.seconds
+          );
+        },
+      },
       mounted: function () {
         const { container, progress, video } = this.$refs;
 
