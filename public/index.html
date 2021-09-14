@@ -188,7 +188,11 @@
         const { container, progress, video } = this.$refs;
 
         data.container = container;
+        data.progress.x = container.offsetLeft + progress.offsetLeft;
+        data.progress.width = progress.clientWidth;
+
         data.video = video;
+      }
     });
   </script>
 </body>
