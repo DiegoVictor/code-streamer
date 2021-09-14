@@ -75,11 +75,10 @@
 </head>
 <body>
   <div id="app">
-    <div class="video-container">
+    <div class="video-container" v-bind:class="{fullscreen}" ref="container">
       <video ref="video" width="720"></video>
       <div class="video-controls">
-        <div class="video-progress-timeline">
-          <progress ref="progress"></progress>
+          <progress ref="progress" v-bind:value="current.time" v-bind:max="duration.seconds"></progress>
         </div>
         <div class="buttons">
           <div class="left">
