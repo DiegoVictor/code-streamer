@@ -66,4 +66,6 @@ app.get('/videos/:file', async (request, response) => {
     });
 });
 
-app.listen(3000);
+app.listen(3000, () => {
+  process.stdout.write('\Running in: http://localhost:3000/');
+});
