@@ -250,6 +250,11 @@
         data.progress.width = progress.clientWidth;
 
         data.video = video;
+        video.addEventListener('timeupdate', () => {
+          const { currentTime } = video;
+          data.current.time = Math.ceil(currentTime);
+          data.current.text = secondsToHour(currentTime);
+        });
 
         video.addEventListener('loadedmetadata', () => {
           const { duration } = video;
