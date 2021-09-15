@@ -95,6 +95,18 @@
         </div>
         <div class="buttons">
           <div class="left">
+            <div v-on:click="playOrPause">
+              <span v-if="!playing">
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+                </svg>
+              </span>
+              <span v-else>
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+                </svg>
+              </span>
+            </div>
           </div>
           <div class="right">
           </div>
@@ -204,6 +216,14 @@
           data.video.currentTime = Math.ceil(
             percent * data.duration.seconds
           );
+        },
+        playOrPause: function() {
+          data.playing = !data.playing;
+
+          data.video.pause();
+          if (data.playing) {
+            data.video.play();
+          }
         },
       },
       mounted: function () {
