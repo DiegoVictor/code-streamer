@@ -207,6 +207,19 @@
       }
     };
 
+    function addLeadZero(string) {
+      return `0${string}`.substr(-2);
+    }
+
+    function secondsToHour(seconds) {
+      const minutes = Math.floor(seconds / 60);
+
+      seconds = addLeadZero(Math.ceil(seconds % 60));
+      if (minutes >= 60) {
+        return `${Math.floor(minutes / 60)}:${minutes}:${seconds}`;
+      }
+      return `${minutes}:${seconds}`;
+    }
 
     const player = new Vue({
       el: '#app',
@@ -237,6 +250,13 @@
         data.progress.width = progress.clientWidth;
 
         data.video = video;
+
+        video.addEventListener('loadedmetadata', () => {
+          const { duration } = video;
+
+          data.duration.seconds = Math.ceil(duration);
+          data.duration.text = secondsToHour(duration);
+        });
 
         video.addEventListener('seeked', () => {
           if (!data.playing) {
