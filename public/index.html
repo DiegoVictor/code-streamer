@@ -75,8 +75,7 @@
     }
 
     .buttons, .buttons .left,
-    .buttons .video-time
-    {
+    .buttons .video-volume {
       align-items: center;
       display: flex;
     }
@@ -236,7 +235,9 @@
         text: '0:00'
       },
       volume: {
+        dom: null,
         mute: false,
+        previous: 1,
       },
       container: {
         dom: null,
@@ -298,6 +299,18 @@
             data.fullscreen = fullscreen;
           }, 150);
         },
+        toggleVolume: function () {
+          data.volume.mute = !data.volume.mute;
+          if (data.volume.mute) {
+            data.volume.previous = data.video.dom.volume;
+            data.video.dom.volume = 0;
+            data.volume.level = 0;
+          }
+          else {
+            data.video.dom.volume = data.volume.previous;
+            data.volume.level = volumePercent(data.volume.previous);
+          }
+        }
       },
       mounted: function () {
         const { container, progress, video, volume } = this.$refs;
