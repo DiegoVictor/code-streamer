@@ -123,7 +123,7 @@
             </div>
           </div>
           <div class="right">
-            <span>
+            <span v-on:click="toggleFullscreen">
               <span v-if="!fullscreen">
                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                   <path fill="currentColor" d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z" />
@@ -263,6 +263,21 @@
           if (data.playing) {
             data.video.play();
           }
+        },
+        toggleFullscreen: function () {
+          let fullscreen = false;
+
+          if (!document.fullscreen) {
+            data.container.dom.requestFullscreen();
+            fullscreen = true;
+          }
+          else {
+            document.exitFullscreen();
+          }
+
+          setTimeout(() => {
+            data.fullscreen = fullscreen;
+          }, 150);
         },
       },
       mounted: function () {
