@@ -211,7 +211,9 @@
     });
 
     const data = {
-      video: null,
+      video: {
+        dom: null
+      },
       duration: {
         seconds: 0,
         text: '',
@@ -221,7 +223,9 @@
         time: 0,
         text: '0:00'
       },
-      container: false,
+      container: {
+        dom: null,
+      },
       playing: true,
       timer: '',
       progress: {
@@ -252,16 +256,16 @@
           const x = clientX - data.progress.x;
           const percent = x / data.progress.width;
 
-          data.video.currentTime = Math.ceil(
+          data.video.dom.currentTime = Math.ceil(
             percent * data.duration.seconds
           );
         },
         playOrPause: function() {
           data.playing = !data.playing;
 
-          data.video.pause();
+          data.video.dom.pause();
           if (data.playing) {
-            data.video.play();
+            data.video.dom.play();
           }
         },
         toggleFullscreen: function () {
@@ -283,11 +287,11 @@
       mounted: function () {
         const { container, progress, video } = this.$refs;
 
-        data.container = container;
+        data.container.dom = container;
         data.progress.x = container.offsetLeft + progress.offsetLeft;
         data.progress.width = progress.clientWidth;
 
-        data.video = video;
+        data.video.dom = video;
         video.addEventListener('timeupdate', () => {
           const { currentTime } = video;
           data.current.time = Math.ceil(currentTime);
@@ -304,7 +308,7 @@
         video.addEventListener('seeked', () => {
           if (!data.playing) {
             setTimeout(() => {
-              data.video.pause();
+              video.pause();
             }, 1);
           }
         });
