@@ -309,6 +309,9 @@
           }
         });
 
+        container.addEventListener('fullscreenchange', () => {
+          data.fullscreen = document.fullscreen;
+        });
 
         video.src = mediaSourceUrl;
 
