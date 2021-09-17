@@ -57,8 +57,10 @@
       width: 100%;
     }
 
-    progress {
+    progress,
+    .buttons .video-volume-bar  {
       background: rgba(255, 255, 255, 0.4);
+    }
       border: 0px;
       border-radius: 0px;
       height: 3.5px;
@@ -75,7 +77,8 @@
     }
 
     .buttons, .buttons .left,
-    .buttons .video-volume {
+    .buttons .video-volume,
+    .buttons .video-volume-slider {
       align-items: center;
       display: flex;
     }
@@ -94,10 +97,21 @@
       overflow: hidden;
     }
 
+    .buttons .video-volume-slider {
+      height: 10px;
+      position: relative;
+      transition: all 0.25s;
+      width: 0px;
+    }
+
     .buttons .video-volume:hover .video-volume-progress {
       margin: 0px;
       padding-left: 10px;
       padding-right: 15px;
+    }
+
+    .buttons .video-volume:hover .video-volume-slider {
+      width: 52px;
     }
 
     .buttons .video-time {
@@ -143,6 +157,10 @@
               </template>
               <div class="video-volume-progress">
                 <div class="video-volume-slider" ref="volume">
+                  <div class="video-volume-bar">
+                    <div class="video-volume-bar-current"></div>
+                  </div>
+                  <div class="video-volume-handler"></div>
                 </div>
               </div>
             </div>
