@@ -317,6 +317,14 @@
       return `${minutes}:${seconds}`;
     }
 
+    function volumePercent(level) {
+      let percent = Math.ceil(level * 100);
+
+      if (percent <= 98) {
+        percent += 2;
+      }
+      return percent;
+    }
     const player = new Vue({
       el: '#app',
       data,
