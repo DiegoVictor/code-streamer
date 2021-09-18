@@ -404,7 +404,15 @@
 
         data.volume.dom = volume;
 
-        data.volume.dom = volume;
+        volume.addEventListener('mouseup', function (event) {
+          data.volume.pressed = false;
+        });
+
+
+        volume.addEventListener('mouseleave', function (event) {
+          data.volume.pressed = false;
+        });
+
         data.video.dom = video;
         video.addEventListener('timeupdate', () => {
           const { currentTime } = video;
