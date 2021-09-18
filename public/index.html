@@ -345,19 +345,23 @@
     }
 
     function setHandlerPosition(clientX) {
+      const { container, video, volume } = data;
+      const x = container.dom.offsetLeft + volume.dom.offsetLeft;
+      const width = volume.dom.clientWidth;
 
       let position = clientX - x;
       if (position < 0) {
         position = 0;
-        data.volume.mute = true;
+        volume.mute = true;
       }
       else if (position > width) {
         position = width;
       }
       else {
-        data.volume.mute = false;
+        volume.mute = false;
       }
 
+      video.dom.volume = position / width;
       volume.level = getVolumePercent(video.dom.volume);
     }
 
