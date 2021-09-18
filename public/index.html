@@ -339,6 +339,27 @@
       }
       return percent;
     }
+
+    function moveHandler(clientX) {
+      const x = data.container.dom.offsetLeft + data.volume.dom.offsetLeft;
+      const width = data.volume.dom.clientWidth;
+
+      let position = clientX - x;
+      if (position < 0) {
+        position = 0;
+        data.volume.mute = true;
+      }
+      else if (position > width) {
+        position = width;
+      }
+      else {
+        data.volume.mute = false;
+      }
+
+      data.video.dom.volume = position / width;
+      data.volume.level = volumePercent(data.video.dom.volume);
+    }
+
     const player = new Vue({
       el: '#app',
       data,
