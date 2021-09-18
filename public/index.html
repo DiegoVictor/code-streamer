@@ -429,8 +429,7 @@
         data.progress.width = progress.clientWidth;
 
         data.volume.dom = volume;
-
-        volume.addEventListener('mouseup', function (event) {
+        volume.addEventListener('mouseup', function () {
           data.volume.pressed = false;
         });
 
@@ -441,7 +440,7 @@
           }
         });
 
-        volume.addEventListener('mouseleave', function (event) {
+        volume.addEventListener('mouseleave', function () {
           data.volume.pressed = false;
         });
 
@@ -479,10 +478,7 @@
 
         video.src = mediaSourceUrl;
 
-        video.addEventListener('canplay', () => {
-          video.play();
-        });
-
+        video.addEventListener('canplay', video.play);
         video.addEventListener('ended', () => {
           data.playing = false;
         });
