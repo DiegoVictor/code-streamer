@@ -80,6 +80,8 @@
     .buttons .video-volume,
     .buttons .video-time,
     .buttons .video-volume-slider,
+    .buttons .video-speed:hover,
+    .buttons .video-speed-option,
     .video-progress-timeline {
       align-items: center;
       display: flex;
@@ -98,6 +100,8 @@
     }
 
     .buttons .video-volume,
+    .buttons .video-speed,
+    .buttons .video-speed-option,
     .video-progress-timeline,
     .buttons span {
       cursor: pointer;
@@ -156,6 +160,46 @@
       height: 17px;
       margin-left: 2px;
     }
+
+    .buttons .video-speed {
+      margin-right: 3px;
+      padding-right: 4px;
+    }
+
+    .buttons .video-speed:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 4px;
+      box-shadow: 0px 0px 3px #000;
+    }
+
+    .buttons .video-speed-dropdown {
+      bottom: -2px;
+      display: none;
+      font-family: Roboto, sans-serif;
+      font-size: 14px;
+    }
+
+    .buttons .video-speed:hover .video-speed-dropdown {
+      display: flex;
+    }
+
+    .buttons .video-speed-option {
+      padding: 3px 3px;
+    }
+
+    .buttons .video-speed-option > div {
+      border-radius: 4px;
+      padding: 2px 5px;
+    }
+
+    .buttons .video-speed-option .selected,
+    .buttons .video-speed-option:hover .selected {
+      background-color: rgba(255, 0, 0, 0.8);
+    }
+
+    .buttons .video-speed-option:hover > div {
+      background-color: rgba(0, 0, 0, 0.4);
+    }
   </style>
 </head>
 <body>
@@ -205,6 +249,18 @@
             </div>
           </div>
           <div class="right">
+            <div class="video-speed">
+              <div class="video-speed-dropdown">
+                <div class="video-speed-option" v-for="speed in video.speeds">
+                  <div v-bind:class="{selected: speed === video.speed}" v-on:click.prevent="setVideoSpeed(speed)">
+                    {{ speed }}
+                  </div>
+                </div>
+              </div>
+              <svg style="width:22px;height:22px" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M13,2.05V4.05C17.39,4.59 20.5,8.58 19.96,12.97C19.5,16.61 16.64,19.5 13,19.93V21.93C18.5,21.38 22.5,16.5 21.95,11C21.5,6.25 17.73,2.5 13,2.03V2.05M5.67,19.74C7.18,21 9.04,21.79 11,22V20C9.58,19.82 8.23,19.25 7.1,18.37L5.67,19.74M7.1,5.74C8.22,4.84 9.57,4.26 11,4.06V2.06C9.05,2.25 7.19,3 5.67,4.26L7.1,5.74M5.69,7.1L4.26,5.67C3,7.19 2.25,9.04 2.05,11H4.05C4.24,9.58 4.8,8.23 5.69,7.1M4.06,13H2.06C2.26,14.96 3.03,16.81 4.27,18.33L5.69,16.9C4.81,15.77 4.24,14.42 4.06,13M10,16.5L16,12L10,7.5V16.5Z" />
+              </svg>
+            </div>
             <div v-on:click="fullscreen">
               <span v-if="!inFullscreen">
                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
@@ -294,7 +350,9 @@
 
     const data = {
       video: {
-        dom: null
+        dom: null,
+        speeds: [0.5, 1, 1.5, 2],
+        speed: 1
       },
       duration: {
         seconds: 0,
