@@ -160,15 +160,15 @@
 </head>
 <body>
   <div id="app">
-    <div class="video-container" v-bind:class="{fullscreen}" ref="container">
+    <div class="video-container" v-bind:class="{fullscreen: inFullscreen}" ref="container">
       <video ref="video" width="720"></video>
       <div class="video-controls">
-        <div class="video-progress-timeline" v-on:click.prevent="goTo">
+        <div class="video-progress-timeline" v-on:click.prevent="seek">
           <progress ref="progress" v-bind:value="current.time" v-bind:max="duration.seconds"></progress>
         </div>
         <div class="buttons">
           <div class="left">
-            <div v-on:click="playOrPause">
+            <div v-on:click="pause">
               <span v-if="!playing">
                 <svg style="width:24px;height:24px" viewBox="0 0 24 24">
                   <path fill="currentColor" d="M8,5.14V19.14L19,12.14L8,5.14Z" />
@@ -182,21 +182,21 @@
             </div>
             <div class="video-volume">
               <template v-if="!volume.mute" >
-                <svg style="width:24px;height:24px" viewBox="0 0 24 24" v-on:click.prevent="toggleVolume">
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24" v-on:click.prevent="mute(true)">
                   <path fill="currentColor" d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" />
                 </svg>
               </template>
               <template v-else>
-                <svg style="width:24px;height:24px" viewBox="0 0 24 24" v-on:click.prevent="toggleVolume">
+                <svg style="width:24px;height:24px" viewBox="0 0 24 24" v-on:click.prevent="mute(false)">
                   <path fill="currentColor" d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z" />
                 </svg>
               </template>
               <div class="video-volume-progress">
                 <div class="video-volume-slider" ref="volume">
                   <div class="video-volume-bar">
-                    <div class="video-volume-bar-current" v-bind:style="{ width: getVolumePercent }"></div>
+                    <div class="video-volume-bar-current" v-bind:style="{ width: percent }"></div>
                   </div>
-                  <div class="video-volume-handler" v-bind:style="{ left: getHandlerPosition }"></div>
+                  <div class="video-volume-handler" v-bind:style="{ left: position }"></div>
                 </div>
               </div>
             </div>
@@ -300,7 +300,7 @@
         seconds: 0,
         text: '',
       },
-      fullscreen: false,
+      inFullscreen: false,
       current: {
         time: 0,
         text: '0:00'
@@ -325,21 +325,17 @@
       }
     };
 
-    function addLeadZero(string) {
-      return `0${string}`.substr(-2);
-    }
-
-    function secondsToHour(seconds) {
+    function getTime(seconds) {
       const minutes = Math.floor(seconds / 60);
 
-      seconds = addLeadZero(Math.ceil(seconds % 60));
+      seconds = `0${(Math.ceil(seconds % 60))}`.substr(-2);
       if (minutes >= 60) {
         return `${Math.floor(minutes / 60)}:${minutes}:${seconds}`;
       }
       return `${minutes}:${seconds}`;
     }
 
-    function volumePercent(level) {
+    function getVolumePercent(level) {
       let percent = Math.ceil(level * 100);
 
       if (percent <= 98) {
@@ -348,9 +344,7 @@
       return percent;
     }
 
-    function moveHandler(clientX) {
-      const x = data.container.dom.offsetLeft + data.volume.dom.offsetLeft;
-      const width = data.volume.dom.clientWidth;
+    function setHandlerPosition(clientX) {
 
       let position = clientX - x;
       if (position < 0) {
@@ -364,55 +358,38 @@
         data.volume.mute = false;
       }
 
-      data.video.dom.volume = position / width;
-      data.volume.level = volumePercent(data.video.dom.volume);
+      volume.level = getVolumePercent(video.dom.volume);
     }
 
     const player = new Vue({
       el: '#app',
       data,
       computed: {
-        getVolumePercent: function() {
+        percent: function() {
           return data.volume.level + '%';
         },
-        getHandlerPosition: function() {
+        position: function() {
           return 'calc(' + data.volume.level + '% - 6px)';
         }
       },
       methods: {
-        goTo: function ({ clientX }) {
-          const x = clientX - data.progress.x;
-          const percent = x / data.progress.width;
-
-          data.video.dom.currentTime = Math.ceil(
-            percent * data.duration.seconds
-          );
-        },
-        playOrPause: function() {
-          data.playing = !data.playing;
-
-          data.video.dom.pause();
-          if (data.playing) {
-            data.video.dom.play();
-          }
-        },
-        toggleFullscreen: function () {
-          let fullscreen = false;
+        fullscreen: function () {
+          let inFullscreen = false;
 
           if (!document.fullscreen) {
             data.container.dom.requestFullscreen();
-            fullscreen = true;
+            inFullscreen = true;
           }
           else {
             document.exitFullscreen();
           }
 
           setTimeout(() => {
-            data.fullscreen = fullscreen;
+            data.inFullscreen = inFullscreen;
           }, 150);
         },
-        toggleVolume: function () {
-          data.volume.mute = !data.volume.mute;
+        mute: function (value) {
+          data.volume.mute = value;
           if (data.volume.mute) {
             data.volume.previous = data.video.dom.volume;
             data.video.dom.volume = 0;
@@ -420,8 +397,28 @@
           }
           else {
             data.video.dom.volume = data.volume.previous;
-            data.volume.level = volumePercent(data.volume.previous);
+            data.volume.level = getVolumePercent(data.volume.previous);
           }
+        },
+        pause: function() {
+          data.playing = !data.playing;
+
+          data.video.dom.pause();
+          if (data.playing) {
+            data.video.dom.play();
+          }
+        },
+        seek: function ({ clientX }) {
+          const x = clientX - data.progress.x;
+          const percent = x / data.progress.width;
+
+          data.video.dom.currentTime = Math.ceil(
+            percent * data.duration.seconds
+          );
+        },
+        setVideoSpeed: function (speed) {
+          data.video.speed = speed;
+          data.video.dom.playbackRate = speed;
         }
       },
       mounted: function () {
@@ -440,7 +437,7 @@
         volume.addEventListener('mousedown', function (event) {
           if (!data.volume.pressed) {
             data.volume.pressed = true;
-            moveHandler(event.clientX);
+            setHandlerPosition(event.clientX);
           }
         });
 
@@ -450,7 +447,7 @@
 
         volume.addEventListener('mousemove', function (event) {
           if (data.volume.pressed) {
-            moveHandler(event.clientX);
+            setHandlerPosition(event.clientX);
           }
         });
 
@@ -458,14 +455,14 @@
         video.addEventListener('timeupdate', () => {
           const { currentTime } = video;
           data.current.time = Math.ceil(currentTime);
-          data.current.text = secondsToHour(currentTime);
+          data.current.text = getTime(currentTime);
         });
 
         video.addEventListener('loadedmetadata', () => {
           const { duration } = video;
 
           data.duration.seconds = Math.ceil(duration);
-          data.duration.text = secondsToHour(duration);
+          data.duration.text = getTime(duration);
         });
 
         video.addEventListener('seeked', () => {
@@ -477,7 +474,7 @@
         });
 
         container.addEventListener('fullscreenchange', () => {
-          data.fullscreen = document.fullscreen;
+          data.inFullscreen = document.fullscreen;
         });
 
         video.src = mediaSourceUrl;
