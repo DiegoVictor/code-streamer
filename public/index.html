@@ -50,9 +50,6 @@
     }
 
     .video-progress-timeline {
-      align-items: center;
-      cursor: pointer;
-      display: flex;
       height: 14px;
       width: 100%;
     }
@@ -74,14 +71,16 @@
       background: red;
     }
 
-    .buttons span {
-      cursor: pointer;
+    .buttons {
+      height: 24px;
     }
 
     .buttons, .buttons .left,
+    .buttons .right,
     .buttons .video-volume,
     .buttons .video-time,
-    .buttons .video-volume-slider {
+    .buttons .video-volume-slider,
+    .video-progress-timeline {
       align-items: center;
       display: flex;
     }
@@ -94,8 +93,13 @@
       justify-content: flex-start;
     }
 
-    .buttons .video-volume {
+    .buttons .video-volume,
+    .video-progress-timeline,
+    .buttons span {
       cursor: pointer;
+    }
+
+    .buttons .video-volume {
       padding-left: 7px;
     }
 
