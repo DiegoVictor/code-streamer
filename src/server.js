@@ -2,6 +2,7 @@ import express from 'express';
 import fs from 'fs';
 import cors from 'cors';
 import { Transform } from 'stream';
+import zlib from 'zlib';
 
 import { encrypt } from './utils/crypt.js';
 
@@ -47,6 +48,7 @@ app.get('/videos/:file', async (request, response) => {
         'Content-Range': `bytes ${start}-${end}/${fileSize}`,
         'Accept-Ranges': 'bytes',
         'Content-Type': 'applicatio/octet-stream',
+        'Content-Encoding': 'gzip',
       });
 
       const transform = new Transform({
@@ -57,7 +59,7 @@ app.get('/videos/:file', async (request, response) => {
         },
       });
 
-      stream.pipe(transform).pipe(response);
+      stream.pipe(transform).pipe(zlib.createGzip()).pipe(response);
     })
     .on('error', () => {
       response.status(500).json({
