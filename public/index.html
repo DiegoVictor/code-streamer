@@ -245,7 +245,9 @@
               </div>
             </div>
             <div class="video-time">
-              {{ current.text }} / {{ duration.text }}
+              <template v-if="duration.text.length > 0">
+                {{ current.text }} / {{ duration.text }}
+              </template>
             </div>
           </div>
           <div class="right">
