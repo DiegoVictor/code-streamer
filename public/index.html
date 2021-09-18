@@ -188,7 +188,7 @@
                   <div class="video-volume-bar">
                     <div class="video-volume-bar-current" v-bind:style="{ width: getVolumePercent }"></div>
                   </div>
-                  <div class="video-volume-handler"></div>
+                  <div class="video-volume-handler" v-bind:style="{ left: getHandlerPosition }"></div>
                 </div>
               </div>
             </div>
@@ -346,6 +346,9 @@
         getVolumePercent: function() {
           return data.volume.level + '%';
         },
+        getHandlerPosition: function() {
+          return 'calc(' + data.volume.level + '% - 6px)';
+        }
       },
       methods: {
         goTo: function ({ clientX }) {
