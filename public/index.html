@@ -429,9 +429,21 @@
           data.volume.pressed = false;
         });
 
+        volume.addEventListener('mousedown', function (event) {
+          if (!data.volume.pressed) {
+            data.volume.pressed = true;
+            moveHandler(event.clientX);
+          }
+        });
 
         volume.addEventListener('mouseleave', function (event) {
           data.volume.pressed = false;
+        });
+
+        volume.addEventListener('mousemove', function (event) {
+          if (data.volume.pressed) {
+            moveHandler(event.clientX);
+          }
         });
 
         data.video.dom = video;
