@@ -47,7 +47,7 @@ app.get('/videos/:slug', async (request, response) => {
       response.writeHead(206, {
         'Content-Range': `bytes ${start}-${end}/${fileSize}`,
         'Accept-Ranges': 'bytes',
-        'Content-Type': 'applicatio/octet-stream',
+        'Content-Type': 'application/octet-stream',
         'Content-Encoding': 'gzip',
       });
 
