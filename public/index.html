@@ -111,8 +111,11 @@
       padding-left: 7px;
     }
 
+    .buttons .video-volume > :first-child {
+      margin-right: 10px;
+    }
+
     .buttons .video-volume-progress {
-      margin-left: 10px;
       padding: 0px;
       overflow: hidden;
     }
@@ -144,13 +147,16 @@
       width: 10px;
     }
 
-    .buttons .video-volume:hover .video-volume-progress {
+    .buttons .video-volume:hover > :first-child {
       margin: 0px;
+    }
+
+    .buttons .video-volume:hover .video-volume-progress {
       padding-left: 10px;
-      padding-right: 15px;
     }
 
     .buttons .video-volume:hover .video-volume-slider {
+      margin-right: 15px;
       width: 52px;
     }
 
