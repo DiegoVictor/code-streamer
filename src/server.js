@@ -16,8 +16,8 @@ app.get('/', (_, response) => {
   response.sendFile('../public');
 });
 
-app.get('/videos/:file', async (request, response) => {
-  const { file } = request.params;
+app.get('/videos/:slug', async (request, response) => {
+  const { slug } = request.params;
   const { range } = request.headers;
 
   if (!range) {
@@ -26,12 +26,12 @@ app.get('/videos/:file', async (request, response) => {
     });
   }
 
-  const filename = `./${file}`;
-  const stat = await fs.promises.stat(filename);
+  const filename = `./${slug}`;
+  const stat = await fs.promises.stat(filename).then((file) => file).catch(() => null);
 
   if (!stat) {
     return response.status(404).json({
-      message: `The file ${file} was not found`,
+      message: `The file ${slug} was not found`,
     });
   }
   const { size: fileSize } = stat;
