@@ -211,7 +211,9 @@
 <body>
   <div id="app">
     <div class="video-container" v-bind:class="{fullscreen: inFullscreen}" ref="container">
-      <video ref="video" width="720"></video>
+      <template>
+        <video ref="video" width="720"></video>
+      </template>
       <div class="video-controls">
         <div class="video-progress-timeline" v-on:click.prevent="seek">
           <progress ref="progress" v-bind:value="current.time" v-bind:max="duration.seconds"></progress>
