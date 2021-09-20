@@ -22,7 +22,7 @@ app.get('/videos/:slug', async (request, response) => {
     });
   }
 
-  const filename = `./${slug}`;
+  const filename = `./media/${slug}`;
   const stat = await fs.promises.stat(filename).then((file) => file).catch(() => null);
 
   if (!stat) {
