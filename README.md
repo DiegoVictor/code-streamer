@@ -50,3 +50,19 @@ Alternatively you can use [mp4fragment](http://www.bento4.com/documentation/mp4f
 ```
 $ mp4fragment input.mp4 output.mp4
 ```
+
+### CODEC String
+To [add a Source Buffer to Media Source](https://developer.mozilla.org/en-US/docs/Web/API/MediaSource/addSourceBuffer) is necessary to set video's mimetype and codecs:
+```
+mediaSource.addSourceBuffer(
+  'video/mp4; codecs="avc1.640028, mp4a.40.2"'
+);
+```
+To retrieve this information you can also use the [Checking Fragmentation](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API/Transcoding_assets_for_MSE#checking_fragmentation) page:
+[!codecs](https://raw.githubusercontent.com/DiegoVictor/code-streamer/main/screenshots/codecs.png)
+Or use [mp4info](http://www.bento4.com/documentation/mp4info/) from [Bento4](https://github.com/axiomatic-systems/Bento4) toolkit:
+```shell
+$ mp4info big-buck.mp4 | grep Codec
+  Codec String: mp4a.40.2
+  Codec String: avc1.42E01E
+```
