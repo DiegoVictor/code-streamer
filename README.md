@@ -6,6 +6,10 @@
 
 Study Case to learn about streaming video in Node.js
 
+## Table of Contents
+* [Requirements](#requirements)
+* [Installing](#installing)
+* [Usage](#usage)
 # Requirements
 * [Node.js](https://nodejs.org) ^15.14.0
 * npm or [yarn](https://yarnpkg.com)
