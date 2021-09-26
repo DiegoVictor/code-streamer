@@ -60,7 +60,9 @@ mediaSource.addSourceBuffer(
 );
 ```
 To retrieve this information you can also use the [Checking Fragmentation](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API/Transcoding_assets_for_MSE#checking_fragmentation) page:
-[!codecs](https://raw.githubusercontent.com/DiegoVictor/code-streamer/main/screenshots/codecs.png)
+
+![codecs](https://raw.githubusercontent.com/DiegoVictor/code-streamer/main/screenshots/codecs.png)
+
 Or use [mp4info](http://www.bento4.com/documentation/mp4info/) from [Bento4](https://github.com/axiomatic-systems/Bento4) toolkit:
 ```shell
 $ mp4info big-buck.mp4 | grep Codec
