@@ -10,6 +10,8 @@ Study Case to learn about streaming video in Node.js
 * [Requirements](#requirements)
 * [Installing](#installing)
 * [Usage](#usage)
+  * [Choosing another videos](#choosing_another_videos)
+
 # Requirements
 * [Node.js](https://nodejs.org) ^15.14.0
 * npm or [yarn](https://yarnpkg.com)
@@ -37,3 +39,14 @@ yarn dev:server
 Then access through the browser the `http://localhost:3000` page (if you are using the default configuration), if everything is OK you should see the player loading and playing the video:
 
 ![Demo](https://raw.githubusercontent.com/DiegoVictor/code-streamer/main/screenshots/demo.gif)
+
+## Choosing another videos
+If you would like to choose another videos make sure to fragment them or the [Media Source Extensions](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API) may not deal it properly.
+
+* [Checking Fragmentation](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API/Transcoding_assets_for_MSE#checking_fragmentation)
+* [Fragmenting](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API/Transcoding_assets_for_MSE#fragmenting)
+
+Alternatively you can use [mp4fragment](http://www.bento4.com/documentation/mp4fragment/) from [Bento4](https://github.com/axiomatic-systems/Bento4) toolkit:
+```
+$ mp4fragment input.mp4 output.mp4
+```
