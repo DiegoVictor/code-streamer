@@ -65,5 +65,5 @@ app.get('/videos/:slug', async (request, response) => {
 });
 
 app.listen(3000, () => {
-  process.stdout.write('\nRunning in: http://localhost:3000');
+  process.stdout.write('\nRunning at: http://localhost:3000\n');
 });
