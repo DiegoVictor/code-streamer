@@ -11,6 +11,7 @@ Study Case to learn about streaming video in Node.js
 * [Installing](#installing)
 * [Usage](#usage)
   * [Choosing another videos](#choosing_another_videos)
+    * [CODEC String](#codec-string)
 
 # Requirements
 * [Node.js](https://nodejs.org) ^15.14.0
