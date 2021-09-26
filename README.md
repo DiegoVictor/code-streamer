@@ -16,6 +16,7 @@ Study Case to learn about streaming video in Node.js
 # Requirements
 * [Node.js](https://nodejs.org) ^15.14.0
 * npm or [yarn](https://yarnpkg.com)
+* [Git LFS](https://git-lfs.github.com/)
 
 # Installing
 After clone the repo, just install dependencies:
