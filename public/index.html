@@ -573,6 +573,11 @@
         video.addEventListener('ended', () => {
           data.playing = false;
         });
+
+        video.addEventListener('mouseup', () => {
+          this.pause();
+        });
+
       }
     });
   </script>
