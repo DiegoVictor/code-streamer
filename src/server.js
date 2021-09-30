@@ -22,8 +22,8 @@ app.get('/videos/:slug', async (request, response) => {
     });
   }
 
-  const filename = `./media/${slug}`;
-  const stat = await fs.promises.stat(filename).then((file) => file).catch(() => null);
+  const filePath = `./media/${slug}`;
+  const stat = await fs.promises.stat(filePath).then((file) => file).catch(() => null);
 
   if (!stat) {
     return response.status(404).json({
@@ -36,7 +36,7 @@ app.get('/videos/:slug', async (request, response) => {
   const start = Number(range.replace(/\D/gi, ''));
   const end = Math.min(start + chunkSize, fileSize - 1);
 
-  const stream = fs.createReadStream(filename, { start, end });
+  const stream = fs.createReadStream(filePath, { start, end });
 
   return stream
     .on('open', () => {
