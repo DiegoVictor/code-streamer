@@ -314,7 +314,7 @@
   <script src="/js/cryptojs/aes.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
   <script>
-    const videoUrl = '/videos/big-buck.mp4';
+    const videoUrl = '/videos/asian-skater-boys.mp4';
     const secret = '6n2347856n234785nc623487c56n2347';
 
     const mediaSource = new MediaSource();
@@ -350,10 +350,9 @@
 
     mediaSource.addEventListener('sourceopen', function() {
       const videoSourceBuffer = mediaSource.addSourceBuffer(
-        'video/mp4; codecs="avc1.42E01E, mp4a.40.2"'
+        'video/mp4; codecs="avc1.640028, mp4a.40.2"'
       );
       let range = 'bytes 0-';
-
 
       videoSourceBuffer.addEventListener('updateend', function() {
         const [, end, total] = range.replace('bytes ', '')
