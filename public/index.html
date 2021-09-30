@@ -321,7 +321,12 @@
     const mediaSourceUrl = URL.createObjectURL(mediaSource);
 
     function getBuffer(url, range) {
-      return fetch(url, { headers: { range } })
+      return fetch(url, {
+        headers: {
+          range,
+          'Accept-Encoding': 'gzip'
+        }
+      })
       .then(response =>
         response.arrayBuffer().then(arrayBuffer =>
           ({

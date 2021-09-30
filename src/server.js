@@ -1,7 +1,7 @@
 import express from 'express';
 import fs from 'fs';
 import cors from 'cors';
-import { Transform } from 'stream';
+import { Transform, promises } from 'stream';
 import zlib from 'zlib';
 
 import { encrypt } from './utils/crypt.js';
@@ -40,13 +40,6 @@ app.get('/videos/:slug', async (request, response) => {
 
   return stream
     .on('open', () => {
-      response.writeHead(206, {
-        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
-        'Accept-Ranges': 'bytes',
-        'Content-Type': 'application/octet-stream',
-        'Content-Encoding': 'gzip',
-      });
-
       const transform = new Transform({
         transform(chunk, _, callback) {
           const cipherText = encrypt(chunk, '6n2347856n234785nc623487c56n2347');
@@ -55,7 +48,23 @@ app.get('/videos/:slug', async (request, response) => {
         },
       });
 
-      stream.pipe(transform).pipe(zlib.createGzip()).pipe(response);
+      const steps = [stream, transform];
+      const headers = {
+        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Type': 'application/octet-stream',
+      };
+
+      const { 'accept-encoding': acceptEncoding } = request.headers;
+      if (acceptEncoding && acceptEncoding.includes('gzip')) {
+        steps.push(zlib.createGzip());
+        headers['Content-Encoding'] = 'gzip';
+      }
+
+      response.writeHead(206, headers);
+      steps.push(response);
+
+      promises.pipeline(steps);
     })
     .on('error', () => {
       response.status(500).json({
