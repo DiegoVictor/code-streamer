@@ -12,6 +12,20 @@ app.use(cors());
 app.use(express.static('public'));
 app.use(express.json());
 
+app.get('/subtitles/:slug', async (request, response) => {
+  const { slug } = request.params;
+  const filePath = `./subtitles/${slug}`;
+
+  const stat = await fs.promises.stat(filePath).then((file) => file).catch(() => null);
+  if (!stat) {
+    return response.status(404).json({
+      message: `The file ${slug} was not found`,
+    });
+  }
+
+  return fs.createReadStream(filePath).pipe(response);
+});
+
 app.get('/videos/:slug', async (request, response) => {
   const { slug } = request.params;
   const { range } = request.headers;
