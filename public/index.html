@@ -48,11 +48,20 @@
       border-radius: 0px 0px 8px 8px;
       bottom: 0px;
       color: white;
-      padding: 0px 15px 7px;
+      height: 45px;
+      padding: 0px 15px;
       position: absolute;
-      transition: .5s;
+      transition: .25s;
       width: calc(100% - 30px);
       z-index: 1;
+    }
+
+    .video-container.playing .video-controls {
+      height: 0px;
+    }
+
+    .video-container.playing:hover .video-controls {
+      height: 45px;
     }
 
     .video-progress-timeline {
@@ -216,7 +225,7 @@
 </head>
 <body>
   <div id="app">
-    <div class="video-container" v-bind:class="{fullscreen: inFullscreen}" ref="container">
+    <div class="video-container" v-bind:class="{fullscreen: inFullscreen, playing }" ref="container">
       <template>
         <video ref="video" width="720"></video>
       </template>
@@ -391,7 +400,7 @@
       container: {
         dom: null,
       },
-      playing: true,
+      playing: false,
       timer: '',
       progress: {
         x: 0,
@@ -556,7 +565,6 @@
 
         video.src = mediaSourceUrl;
 
-        video.addEventListener('canplay', video.play);
         video.addEventListener('ended', () => {
           data.playing = false;
         });
