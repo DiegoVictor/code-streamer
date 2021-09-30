@@ -231,7 +231,9 @@
   <div id="app">
     <div class="video-container" v-bind:class="{fullscreen: inFullscreen, playing }" ref="container">
       <template>
-        <video ref="video" width="720"></video>
+        <video ref="video" width="720">
+          <track src="/subtitles/asian-skater-boys.en.vtt" kind="subtitles" srclang="en" label="English" default/>
+        </video>
       </template>
       <div class="video-controls">
         <div class="video-progress-timeline" v-on:click.prevent="seek">
