@@ -10,7 +10,7 @@ Study Case to learn about streaming video in Node.js
 * [Requirements](#requirements)
 * [Installing](#installing)
 * [Usage](#usage)
-  * [Choosing another videos](#choosing_another_videos)
+  * [Choosing another videos](#choosing-another-videos)
     * [CODEC String](#codec-string)
 
 # Requirements
