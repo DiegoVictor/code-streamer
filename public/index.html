@@ -310,7 +310,7 @@
     </div>
   </div>
 
-  <script src="/js/cryptojs/buffer.min.js"></script>
+  <script src="https://bundle.run/buffer@6.0.3"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" referrerpolicy="no-referrer"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.min.js"></script>
   <script>
@@ -341,7 +341,6 @@
       const cipherText = new TextDecoder().decode(arrayBuffer);
       const decrypted = CryptoJS.AES.decrypt(cipherText, secret);
 
-      // buffer object comes from /js/cryptojs/buffer.min.js
       return buffer.Buffer.from(
         decrypted.toString(CryptoJS.enc.Utf8),
         'hex'
