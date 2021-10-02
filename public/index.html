@@ -71,6 +71,16 @@
                 </svg>
               </div>
               <div class="video-settings-menu menu" v-bind:class="{open: settings}">
+                <div class="menu-item">
+                  <div class="menu-item-title">Velocidade de reprodução</div>
+                  <div class="submenu">
+                    <div class="menu-item" v-for="speed in video.speeds" v-on:click.prevent="setVideoSpeed(speed)" v-bind:class="{selected: speed === video.speed}">
+                      <div class="menu-item-title">
+                        {{ speed }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div v-on:click="fullscreen">
