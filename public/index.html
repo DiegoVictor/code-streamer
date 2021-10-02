@@ -365,6 +365,14 @@
           this.pause();
         });
 
+        [video, container].forEach(element => {
+          element.addEventListener('mouseleave', () => {
+            if (data.playing) {
+              data.settings = false;
+            }
+          });
+        });
+
         Object.values(video.textTracks).forEach(track => {
           track.mode = 'hidden';
           data.subtitles.available.push({
