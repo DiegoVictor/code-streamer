@@ -103,8 +103,6 @@ progress::-webkit-progress-value {
 .buttons .video-volume,
 .buttons .video-time,
 .buttons .video-volume-slider,
-.buttons .video-speed:hover,
-.buttons .video-speed-option,
 .video-progress-timeline {
   align-items: center;
   display: flex;
@@ -123,8 +121,6 @@ progress::-webkit-progress-value {
 }
 
 .buttons .video-volume,
-.buttons .video-speed,
-.buttons .video-speed-option,
 .video-progress-timeline,
 .buttons span,
 .buttons .video-settings {
