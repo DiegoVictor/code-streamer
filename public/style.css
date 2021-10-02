@@ -13,6 +13,12 @@ body {
   display: inline-block;
   font-size: 0px;
   position: relative;
+}
+
+.video-container ,
+.buttons .video-volume-progress,
+.buttons .submenu .menu-item,
+.menu {
   overflow: hidden;
 }
 
@@ -50,7 +56,9 @@ body {
   z-index: 1;
 }
 
-.video-container.playing .video-controls {
+.video-container.playing .video-controls,
+.submenu .menu-item,
+.menu {
   height: 0px;
 }
 
@@ -58,9 +66,16 @@ body {
   height: 45px;
 }
 
+.video-progress-timeline,
+progress,
+.buttons .submenu,
+.menu-item-title,
+.submenu .menu-item {
+  width: 100%;
+}
+
 .video-progress-timeline {
   height: 14px;
-  width: 100%;
 }
 
 progress,
@@ -72,7 +87,6 @@ progress {
   border: 0px;
   border-radius: 0px;
   height: 3.5px;
-  width: 100%;
 }
 
 progress::-moz-progress-bar,
@@ -127,7 +141,6 @@ progress::-webkit-progress-value {
 
 .buttons .video-volume-progress {
   padding: 0px;
-  overflow: hidden;
 }
 
 .buttons .video-volume-slider {
@@ -188,31 +201,41 @@ progress::-webkit-progress-value {
   right: 15px;
 }
 
-.buttons .video-speed-dropdown {
-  bottom: -2px;
-  display: none;
+.menu, .submenu {
   font-family: Roboto, sans-serif;
-  font-size: 14px;
+  font-size: 15px;
 }
 
-.buttons .video-speed:hover .video-speed-dropdown {
+.menu-item {
+  transition: height 0.25s;
+}
+
+.menu-item-title {
+  align-items: center;
+  box-sizing: border-box;
   display: flex;
+  height: 50px;
+  padding: 10px 15px;
 }
 
-.buttons .video-speed-option {
-  padding: 3px 3px;
+.menu .menu-item:not(.selected):hover {
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
-.buttons .video-speed-option > div {
-  border-radius: 4px;
-  padding: 2px 5px;
+.submenu .menu-item {
+  padding: 0px;
 }
 
-.buttons .video-speed-option .selected,
-.buttons .video-speed-option:hover .selected {
+
+.menu-item:hover > .submenu .menu-item,
+.menu-item > .submenu .menu-item:hover {
+  height: 50px;
+}
+
+.menu-item.selected {
   background-color: rgba(255, 0, 0, 0.8);
 }
 
-.buttons .video-speed-option:hover > div {
-  background-color: rgba(0, 0, 0, 0.4);
+.menu.open {
+  height: auto;
 }
