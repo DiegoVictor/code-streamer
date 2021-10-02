@@ -310,6 +310,15 @@
         setVideoSpeed: function (speed) {
           data.video.speed = speed;
           data.video.dom.playbackRate = speed;
+        },
+        setSubtitle: function (language) {
+          data.subtitles.selected = language;
+          Object.values(data.video.dom.textTracks).forEach(track => {
+            track.mode = 'hidden';
+            if (track.language === language) {
+              track.mode = 'showing';
+            }
+          })
         }
       },
       mounted: function () {
