@@ -81,6 +81,16 @@
                     </div>
                   </div>
                 </div>
+                <div class="menu-item">
+                  <div class="menu-item-title">Legendas/CC</div>
+                  <div class="submenu">
+                    <div class="menu-item" v-for="subtitle in subtitles.available" v-on:click.prevent="setSubtitle(subtitle.language)" v-bind:class="{selected: subtitle.language === subtitles.selected}">
+                      <div class="menu-item-title">
+                        {{ subtitle.label }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             <div v-on:click="fullscreen">
