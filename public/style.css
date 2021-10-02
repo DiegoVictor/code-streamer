@@ -112,7 +112,8 @@ progress::-webkit-progress-value {
 .buttons .video-speed,
 .buttons .video-speed-option,
 .video-progress-timeline,
-.buttons span {
+.buttons span,
+.buttons .video-settings {
   cursor: pointer;
 }
 
@@ -176,15 +177,15 @@ progress::-webkit-progress-value {
   margin-left: 2px;
 }
 
-.buttons .video-speed {
-  margin-right: 3px;
-  padding-right: 4px;
+.buttons .video-settings {
+  padding-right: 7px;
 }
 
-.buttons .video-speed:hover {
+.buttons .video-settings-menu {
   background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 4px;
-  box-shadow: 0px 0px 3px #000;
+  bottom: 45px;
+  position: absolute;
+  right: 15px;
 }
 
 .buttons .video-speed-dropdown {
