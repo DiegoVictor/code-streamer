@@ -365,6 +365,13 @@
           this.pause();
         });
 
+        Object.values(video.textTracks).forEach(track => {
+          track.mode = 'hidden';
+          data.subtitles.available.push({
+            label: track.label,
+            language: track.language
+          });
+        })
       }
     });
   </script>
