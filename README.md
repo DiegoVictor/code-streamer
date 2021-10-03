@@ -40,7 +40,7 @@ yarn dev:server
 
 Then access through the browser the `http://localhost:3000` page (if you are using the default configuration), if everything is OK you should see the player loading and playing the video:
 
-![Demo](https://raw.githubusercontent.com/DiegoVictor/code-streamer/main/screenshots/demo.gif)
+![Demo](https://media.githubusercontent.com/media/DiegoVictor/code-streamer/main/screenshots/demo.gif)
 
 ## Choosing another videos
 If you would like to choose another videos make sure to fragment them or the [Media Source Extensions](https://developer.mozilla.org/en-US/docs/Web/API/Media_Source_Extensions_API) may not deal it properly.
