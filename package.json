@@ -3,7 +3,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev:server": "nodemon ./src/server.js"
+    "dev:server": "nodemon ./src/server.js",
+    "start": "node ./src/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
